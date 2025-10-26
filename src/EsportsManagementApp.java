@@ -1,6 +1,6 @@
 import java.io.*;
 
-public class Main {
+public class EsportsManagementApp {
     public static void main(String[] args){
         // Reading the gamers file and putting them in an array.
         File gamersFile = new File("./src/gamers.csv");
