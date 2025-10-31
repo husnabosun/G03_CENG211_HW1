@@ -1,27 +1,19 @@
 import java.io.*;
+import java.util.Arrays;
 
 public class EsportsManagementApp {
     public static void main(String[] args){
-        // Reading the gamers file and putting them in an array.
+        // Reading the gamers file and putting them in an array.(Just for example, code block can be added to its original spot later.)
         File gamersFile = new File("./src/gamers.csv");
-        Gamer[] gamers = new Gamer[FileIO.numOfLines(gamersFile)];
-        int i = 0;
-        for (String[] arr: FileIO.readLines(gamersFile)){
-            if (arr != null){
-                Gamer gamer = new Gamer(arr);
-                gamers[i++] = gamer;
-            } 
-        }
+        Gamer[] gamers = Gamer.returnObjectArray(gamersFile);
         
-        // Reading the games file and putting them in an array.
+        // Reading the games file and putting them in an array.(Just for example, code block can be added to its original spot later.)
         File gamesFile = new File("./src/games.csv");
-        Game[] games = new Game[FileIO.numOfLines(gamesFile)];
-        int j = 0;
-        for (String[] arr: FileIO.readLines(gamesFile)){
-            if (arr != null){    
-                Game game = new Game(arr);
-                games[j++] = game; 
-            }
-        }
+        Game[] games = Game.returnObjectArray(gamesFile);
+        
+        // Just for example not included in the code.
+        System.out.println(Arrays.deepToString(gamers));
+        System.out.println("-----------------------------------");
+        System.out.println(Arrays.deepToString(games));
     }
 }
