@@ -1,8 +1,15 @@
+/**
+ * Query Class Contract:
+ * Responsibility: To handle all six tournament queries by using data retrieved from
+ * MatchManagement, PointsBoard, and the Gamer array. It is responsible for formatting
+ */
+
 public class Query {
     private MatchManagement matchManagement;
     private PointsBoard pointsBoard;
     private Gamer[] gamers;
 
+    // Constructor: Takes all necessary data sources to execute the queries.
     public Query(MatchManagement matchManagement, PointsBoard pointsBoard, Gamer[] gamers) {
         this.matchManagement = matchManagement;
         this.pointsBoard = pointsBoard;
@@ -33,7 +40,9 @@ public class Query {
         System.out.println("Skill Points: " + match.getSkillPoints());
         System.out.println("Bonus Points: " + match.getBonusPoints());
         System.out.println("Match Points: " + match.getMatchPoints());
+        System.out.println();
 
+        // Finds the game that maximized rounds[i] * basePointPerRound[i]
         GameContribution contributor = match.getMostContributingGame();
 
         System.out.println("Most Contributing Game in this Match:");
@@ -42,6 +51,7 @@ public class Query {
                 contributor.getRounds() + " rounds × " +
                 contributor.getBasePoints() + " points = " +
                 contributor.getContribution());
+        System.out.println();
     }
     public void printLowestBonusPointMatch(){
         Match match = matchManagement.findLowestBonusMatch();
@@ -65,11 +75,14 @@ public class Query {
         double highestScorerAvrg = pointsBoard.getAveragePointsAt(highestScorerIndex);
         MedalType highestScorerMedal = pointsBoard.getMedalAt(highestScorerIndex);
 
+        // Using String.format to ensure 2 decimal places for output
+        String formattedAvrg = String.format("%.2f", highestScorerAvrg);
+
         System.out.println("=== HIGHEST-SCORING GAMER ===");
         System.out.println("Nickname: " + highestScorerNickName);
         System.out.println("Name: " + highestScorerName);
         System.out.println("Total Points: " + highestScorerTotal);
-        System.out.println("Average Per Match: " + highestScorerAvrg);
+        System.out.println("Average Per Match: " + formattedAvrg);
         System.out.println("Medal: " + highestScorerMedal);
         System.out.println();
 
@@ -79,6 +92,7 @@ public class Query {
         int total = matchManagement.calculateTotalTournamentPoints();
         System.out.println("== TOTAL TOURNAMENT POINTS");
         System.out.println("Total Tournament Points across 1500 matches: " + total);
+        System.out.println();
     }
 
 
@@ -97,10 +111,14 @@ public class Query {
         printMedalLine(MedalType.NONE, noneCount, numberOfGamers);
         System.out.println();
     }
+
+    // Helper method to print a single line of medal stats.
     private void printMedalLine(MedalType medal, int count, int total) {
         double percentage = (count * 100.0) / total;
         System.out.println(medal + ": " + count + " gamers (" + percentage + "%)");
     }
+
+    // Helper method to format Game names for output ([Game1, Game2, Game3]).
     private String formatGames(Game[] games){
         String gamesLine = "";
         for (int i = 0; i < games.length; i++) {
@@ -111,6 +129,8 @@ public class Query {
         }
         return gamesLine;
     }
+
+    // Helper method to format Rounds for output ([7, 3, 9]).
     private String formatRounds(int[] rounds){
         String roundsLine = "";
         for (int i = 0; i < rounds.length; i++) {

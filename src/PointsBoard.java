@@ -1,16 +1,26 @@
 import java.util.Arrays;
 
+/**
+ * PointsBoard Class Contract:
+ * Responsibility: To centrally store, calculate, and manage the seasonal performance data
+ * (Total Points, Average Points Per Match, Medal) for all gamers. It also provides access
+ * to this data for calculations and queries (for the Query class).
+ */
+
 public class PointsBoard {
     private final Gamer[] gamers;
     private final int[] totalPoints;
     private final double[] avrgPoints;
     private final MedalType[] medals;
 
+    // Medal score boundaries (Total Score) specified in the homework
     private static final int GOLDEN_LOWER_BOUND = 4400;
     private static final int SILVER_LOWER_BOUND = 3800;
     private static final int BRONZE_LOWER_BOUND = 3500;
 
 
+    // Constructor Method
+    // Initializes the PointsBoard and allocates the necessary space for all statistics arrays.
     public PointsBoard(Gamer[] gamers){
         this.gamers = gamers;
         int numOfGamers = gamers.length;
@@ -21,6 +31,8 @@ public class PointsBoard {
 
     }
 
+    // Calculates the seasonal statistics (Total Points, Average, Medal) for each gamer
+    // using Match Points in MatchManagement
     public void computeGamerStats(MatchManagement matches){
         int i, j;
         int numOfGamers = gamers.length;
@@ -41,6 +53,7 @@ public class PointsBoard {
         }
     }
 
+    //Determines the medal to be assigned to the gamer based on their Total Points.
     private MedalType decideMedal(int totalPoints){
         if (totalPoints >= GOLDEN_LOWER_BOUND){
             return MedalType.GOLD;
@@ -56,11 +69,13 @@ public class PointsBoard {
         }
     };
 
+    // Calculates the Average Points per match
     private double calcAvrgPoints(int totalPoints){
         int matchCountPerGamer = Gamer.MATCH_COUNT_PER_GAMER;
         return (double) totalPoints / matchCountPerGamer;
     }
 
+    // Getters (Used by the Query class to access statistics)
     public MedalType[] getMedals(){
         return medals;
     }
@@ -82,6 +97,7 @@ public class PointsBoard {
         return medals[index];
     }
 
+    // Counts the medal distribution (for counts and percentages)for Query
     public int[] countMedals(){
         int goldCount = 0, silverCount = 0, bronzeCount = 0, noneCount = 0;
         for (MedalType  medal : medals){
@@ -94,9 +110,13 @@ public class PointsBoard {
         }
         return new int[]{goldCount, silverCount, bronzeCount, noneCount};
     }
+
+    // Finds the index of the gamer with the highest total score for Query
     public int getHighestScorerIndex() {
         return findIndexOfMax(totalPoints);
     }
+
+    // Helper method: Finds the index of the maximum value in an array.
     public static int findIndexOfMax(int[] arr){
         if (arr == null || arr.length == 0) {
             return -1;
